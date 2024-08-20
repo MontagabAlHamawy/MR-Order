@@ -8,22 +8,38 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 export default function Header() {
     const [user] = useAuthState(auth)
-    const [userSession, setUserSession] = useState<string | null>(null);
-
+    const [userSession, setUserSession] = useState<string | null>(null)
     const router = useRouter()
 
     useEffect(() => {
         // التأكد من أن هذا الكود يعمل فقط على العميل
         if (typeof window !== 'undefined') {
+            // تحديث userSession بناءً على التغييرات في user
             setUserSession(sessionStorage.getItem('user'))
         }
-    }, [])
+    }, [user])  // تحديث عند تغيير user
 
-    const logOut = () => {
-        sessionStorage.removeItem('user')
-        signOut(auth)
-        console.log('Logged out!')
-        router.push('/login')
+    useEffect(() => {
+        // التأكد من أن هذا الكود يعمل فقط على العميل
+        if (typeof window !== 'undefined') {
+            // تحديث sessionStorage عند تغيير user
+            if (user) {
+                sessionStorage.setItem('user', user.uid)
+            } else {
+                sessionStorage.removeItem('user')
+            }
+            setUserSession(sessionStorage.getItem('user'))
+        }
+    }, [user])  // تحديث عند تغيير user
+
+    const logOut = async () => {
+        try {
+            await signOut(auth)
+            console.log('Logged out!')
+            router.push('/login')
+        } catch (error) {
+            console.error('Error during sign out', error)
+        }
     }
 
     return (
