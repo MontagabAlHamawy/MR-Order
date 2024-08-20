@@ -9,9 +9,11 @@ export function Logout() {
   const router = useRouter()
 
   useEffect(() => {
-    const userSession = sessionStorage.getItem('user')
-    if (!user && !userSession) {
-      router.push('/login')
+    if (typeof window !== 'undefined') {
+      const userSession = sessionStorage.getItem('user')
+      if (!user && !userSession) {
+        router.replace('/login')
+      }
     }
   }, [user, router])
 

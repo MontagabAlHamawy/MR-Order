@@ -3,20 +3,29 @@ import { auth } from '@/utils/firestore'
 import { signOut } from 'firebase/auth'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 export default function Header() {
-    const user = useAuthState(auth)
-    const userSession = sessionStorage.getItem('user')
+    const [user] = useAuthState(auth)
+    const [userSession, setUserSession] = useState<string | null>(null);
+
     const router = useRouter()
+
+    useEffect(() => {
+        // التأكد من أن هذا الكود يعمل فقط على العميل
+        if (typeof window !== 'undefined') {
+            setUserSession(sessionStorage.getItem('user'))
+        }
+    }, [])
+
     const logOut = () => {
         sessionStorage.removeItem('user')
         signOut(auth)
-        console.log('duno!');
+        console.log('Logged out!')
         router.push('/login')
-
     }
+
     return (
         <div className="flex flex-row w-full justify-between items-center px-5 h-10 gap-10 bg-[#1a1938] text-white py-6">
             <div className='flex flex-row  justify-center items-center gap-10'>
@@ -27,7 +36,7 @@ export default function Header() {
                 <Link href='/kds' className={`${user && userSession ? '' : 'hidden'}`}>KDS</Link>
             </div>
             <div>
-                <button onClick={() => { logOut() }} className={`bg-red-300 px-2 py-1 rounded-sm ${user && userSession ? '' : 'hidden'}`}>LogOut</button>
+                <button onClick={logOut} className={`bg-red-300 px-2 py-1 rounded-sm ${user && userSession ? '' : 'hidden'}`}>LogOut</button>
             </div>
         </div>
     )
