@@ -3,25 +3,27 @@ import { useState } from 'react';
 import { useAuthState, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/firestore'
 import { useRouter } from 'next/navigation';
-import { Log } from '@/components/log';
+import { Logout } from '@/components/logout';
+import toast from 'react-hot-toast';
 
 export default function Login() {
-  Log();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter()
   const user = useAuthState(auth)
+  Logout('shop')
 
   const handleLogIn = async () => {
     try {
       const res = await signInWithEmailAndPassword(email, password);
-      console.log({ res });
+
       setEmail('');
       setPassword('');
       sessionStorage.setItem('user', 'true');
       if (res) {
-        router.push('/pos')
+        toast.success('Logout successful')
+        router.push('/shop')
       }
     } catch (e) {
       console.error(e)

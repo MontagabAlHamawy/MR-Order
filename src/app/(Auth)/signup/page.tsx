@@ -3,28 +3,33 @@ import { useState } from 'react';
 import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/firestore'
 import { useRouter } from 'next/navigation';
-import { Log } from '@/components/log';
+import { Logout } from '@/components/logout';
+import toast from 'react-hot-toast';
 
 export default function Signup() {
-  Log();
   const user = useAuthState(auth)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cpassword, setCPassword] = useState('');
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
   const router = useRouter()
+  if (user) {
+    router.push(`/shop`);
+  } else {
+    router.push('/signup');
+  }
 
   const handleSignUP = async () => {
     try {
       if (cpassword === password) {
         const res = await createUserWithEmailAndPassword(email, password);
-        console.log({ res });
         sessionStorage.setItem('user', 'true');
         setEmail('');
         setPassword('');
         setCPassword('');
         if (res) {
-          router.push('/pos')
+          toast.success('Signup successful')
+          router.push('/shop')
         }
       } else {
         console.error('Config Password');
