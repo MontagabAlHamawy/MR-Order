@@ -52,8 +52,7 @@ export default function Order() {
                     {orders.map((order: any) => (
                         <div key={order.id} className="p-4 bg-[#1a1938] rounded-md shadow-md ">
                             <h2 className="text-xl font-semibold mb-2">Order ID: {order.id}</h2>
-                            <p className="text-md mb-2">User ID: {order.userId}</p>
-                            <ul className="mb-4">
+                            <ul className="my-4">
                                 {order.products.map((product: any, index: number) => (
                                     <li key={index} className="text-gray-300 mb-1">
                                         <span className="font-semibold">{product.name}</span> - Quantity: {product.quantity}
@@ -61,7 +60,7 @@ export default function Order() {
                                 ))}
                             </ul>
                             <p className="text-md mb-4">Status: <span className={`font-semibold ${order.status === 'completed' ? 'text-green-500' : order.status === 'in-progress' ? 'text-yellow-500' : 'text-red-500'}`}>{order.status}</span></p>
-                            <Logout link='shop/order'/>
+                            <Logout link='shop/order' />
                         </div>
                     ))}
                 </div>

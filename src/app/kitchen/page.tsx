@@ -58,7 +58,7 @@ export default function Kitchen() {
                         <h2 className="text-xl font-semibold mb-2">Order ID: {order.id}</h2>
                         <p className="text-md mb-2">User ID: {order.userId}</p>
                         <p className="text-md mb-2">User Email: {order.userEmail}</p>
-                        <ul className="mb-4">
+                        <ul className="my-4">
                             {order.products.map((product: any, index: number) => (
                                 <li key={index} className="text-gray-300 mb-1">
                                     <span className="font-semibold">{product.name}</span> - Quantity: {product.quantity}
