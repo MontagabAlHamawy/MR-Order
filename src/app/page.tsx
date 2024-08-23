@@ -4,8 +4,10 @@ import { auth } from "@/utils/firestore";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 export default function Home() {
-  Logout('shop')
+
   return (
-    <div></div>
+    <div>
+      <Logout link='shop' />
+    </div>
   );
 }

@@ -11,7 +11,6 @@ export default function Order() {
     const [loading, setLoading] = useState(true) // حالة التحميل
     const [error, setError] = useState<any>(null) // حالة الخطأ
     const [user] = useAuthState(auth) // الحصول على المستخدم الحالي
-    Logout('shop/order')
     useEffect(() => {
         if (!user) return;
 
@@ -62,6 +61,7 @@ export default function Order() {
                                 ))}
                             </ul>
                             <p className="text-md mb-4">Status: <span className={`font-semibold ${order.status === 'completed' ? 'text-green-500' : order.status === 'in-progress' ? 'text-yellow-500' : 'text-red-500'}`}>{order.status}</span></p>
+                            <Logout link='shop/order'/>
                         </div>
                     ))}
                 </div>

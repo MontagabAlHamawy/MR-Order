@@ -9,7 +9,6 @@ export default function Kitchen() {
     const [orders, setOrders] = useState<any[]>([]) // حالة لتخزين الطلبات
     const [loading, setLoading] = useState(true) // حالة التحميل
     const [error, setError] = useState<any>(null) // حالة الخطأ
-    Logout('kitchen')
 
     useEffect(() => {
         const ordersCollection = collection(db, 'orders') // الوصول إلى مجموعة الطلبات
@@ -96,6 +95,7 @@ export default function Kitchen() {
                     </div>
                 ))}
             </div>
+            <Logout link='kitchen'/>
         </div>
     )
 }

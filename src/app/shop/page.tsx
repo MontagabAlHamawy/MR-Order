@@ -13,7 +13,7 @@ export default function Shop() {
   const [loading, setLoading] = useState(true) // حالة التحميل
   const [error, setError] = useState<any>(null) // حالة الخطأ
   const [cart, setCart] = useState<any[]>([]) // حالة السلة
-  Logout('shop')
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -75,6 +75,7 @@ export default function Shop() {
         </div>
       </div>
       <Cart cart={cart} updateCart={setCart} />
+      <Logout link='shop'/>
     </div>
   )
 }

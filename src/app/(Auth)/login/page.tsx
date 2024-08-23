@@ -12,7 +12,7 @@ export default function Login() {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter()
   const user = useAuthState(auth)
-  Logout('shop')
+
 
   const handleLogIn = async () => {
     try {
@@ -55,6 +55,7 @@ export default function Login() {
           Login
         </button>
       </div>
+      <Logout link='shop' />
     </div>
   );
 };
