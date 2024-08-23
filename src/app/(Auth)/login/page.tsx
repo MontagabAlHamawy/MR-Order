@@ -7,11 +7,10 @@ import { Logout } from '@/components/logout';
 import toast from 'react-hot-toast';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');// الايميل
+  const [password, setPassword] = useState('');// كلمة المرور
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter()
-  const user = useAuthState(auth)
 
 
   const handleLogIn = async () => {
@@ -32,21 +31,21 @@ export default function Login() {
 
   return (
     <div className="h-[90vh] flex items-center justify-center">
-      <div className="bg-[#1a1938] p-10 rounded-lg shadow-xl w-96">
+      <div className=" bg-section p-10 rounded-lg shadow-xl w-96">
         <h1 className="text-white text-2xl mb-5">Login</h1>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 bg-[#252446] rounded outline-none text-white placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-body rounded outline-none text-white placeholder-gray-500"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 bg-[#252446] rounded outline-none text-white placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-body rounded outline-none text-white placeholder-gray-500"
         />
         <button
           onClick={handleLogIn}

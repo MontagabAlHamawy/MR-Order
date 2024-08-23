@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 
-export default function Cart({ cart, updateCart }: any) {
+export default function Cart({ cart, updateCart, cartState }: any) {
     const router = useRouter()
     const removeFromCart = (id: string) => {
         updateCart((prevCart: any[]) => prevCart.filter(item => item.id !== id));
@@ -55,7 +55,7 @@ export default function Cart({ cart, updateCart }: any) {
         }
     };
     return (
-        <div className="w-1/3 p-4 bg-[#1a1938] text-white sticky right-0 top-0 h-[90vh]">
+        <div className={`w-2/3 xl:w-1/3 p-4 bg-section text-white sticky right-0 top-0 h-[90vh] ${cartState ? 'hidden' : 'w-full '}`}>
             <h1 className="text-2xl font-bold mb-5">Cart</h1>
             <div className='space-y-4'>
                 {cart.length === 0 ? (

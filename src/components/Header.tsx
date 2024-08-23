@@ -21,7 +21,7 @@ export default function Header() {
     }
 
     return (
-        <header className="flex flex-row w-full justify-between items-center px-5 h-16 bg-[#1a1938] text-white py-4">
+        <header className="flex flex-row w-full justify-between items-center px-5 h-16 bg-section text-white py-4">
             <div className="flex flex-row justify-center items-center gap-10">
                 {!user ? (
                     <>

@@ -7,17 +7,17 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Logout } from '@/components/logout'
 
 export default function Order() {
-    const [orders, setOrders] = useState<any[]>([]) // حالة لتخزين الطلبات
-    const [loading, setLoading] = useState(true) // حالة التحميل
-    const [error, setError] = useState<any>(null) // حالة الخطأ
-    const [user] = useAuthState(auth) // الحصول على المستخدم الحالي
+    const [orders, setOrders] = useState<any[]>([]) //  تخزين الطلبات
+    const [loading, setLoading] = useState(true) //  التحميل
+    const [error, setError] = useState<any>(null) //  الخطأ
+    const [user] = useAuthState(auth) //   معلومات المستخدم الحالي
     useEffect(() => {
         if (!user) return;
 
-        // الاستعلام للحصول على الطلبات الخاصة بالمستخدم الحالي
+        //    الطلبات الخاصة بالمستخدم الحالي
         const userOrdersQuery = query(collection(db, 'orders'), where('userId', '==', user.uid))
 
-        // استخدام onSnapshot للحصول على التحديثات الفورية
+        //     التحديث الفوري
         const unsubscribe = onSnapshot(
             userOrdersQuery,
             (snapshot) => {
@@ -25,8 +25,8 @@ export default function Order() {
                     id: doc.id,
                     ...doc.data()
                 }))
-                setOrders(ordersList) // تحديث حالة الطلبات
-                setLoading(false) // إنهاء حالة التحميل
+                setOrders(ordersList)
+                setLoading(false)
             },
             (err) => {
                 console.error('Error fetching orders:', err)
@@ -35,12 +35,11 @@ export default function Order() {
             }
         )
 
-        // تنظيف الاشتراك في onSnapshot عند إلغاء التركيب
         return () => unsubscribe()
-    }, [user]) // يتم تشغيلها عند تغيير المستخدم
+    }, [user])
 
-    if (loading) return <p className="text-center mt-10 text-lg">Loading orders...</p> // عرض رسالة التحميل
-    if (error) return <p className="text-center mt-10 text-lg text-red-500">{error}</p> // عرض رسالة الخطأ
+    if (loading) return <p className="text-center mt-10 text-lg">Loading orders...</p>
+    if (error) return <p className="text-center mt-10 text-lg text-red-500">{error}</p>
 
     return (
         <div className="p-8  min-h-screen">

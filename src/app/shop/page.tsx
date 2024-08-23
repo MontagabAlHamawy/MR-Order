@@ -2,56 +2,55 @@
 
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs } from 'firebase/firestore'
-import { auth, db } from '@/utils/firestore'
-import Cart from '@/components/Cart'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { useRouter } from 'next/navigation'
+import { db } from '@/utils/firestore'
 import { Logout } from '@/components/logout'
+import { FaBars } from 'react-icons/fa'
+import Cart from '@/components/Cart'
 
 export default function Shop() {
-  const [products, setProducts] = useState<any[]>([]) // حالة لتخزين المنتجات
-  const [loading, setLoading] = useState(true) // حالة التحميل
-  const [error, setError] = useState<any>(null) // حالة الخطأ
-  const [cart, setCart] = useState<any[]>([]) // حالة السلة
-
+  const [products, setProducts] = useState<any[]>([]) //  المنتجات
+  const [loading, setLoading] = useState(true) //  التحميل
+  const [error, setError] = useState<any>(null) //  الخطأ
+  const [cart, setCart] = useState<any[]>([]) //  السلة
+  const [cartState, setCartState] = useState(true)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const productsCollection = collection(db, 'prodacts') // الوصول إلى مجموعة المنتجات
-        const productsSnapshot = await getDocs(productsCollection) // جلب المستندات
+        const productsCollection = collection(db, 'prodacts') // الوصول إلى المنتجات
+        const productsSnapshot = await getDocs(productsCollection)
         const productsList = productsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
-        })) // تحويل البيانات إلى مصفوفة من الكائنات
-        setProducts(productsList) // تحديث حالة المنتجات
+        }))
+        setProducts(productsList)
       } catch (err) {
         console.error('Error fetching products:', err)
         setError('Failed to load products')
       } finally {
-        setLoading(false) // إنهاء حالة التحميل
+        setLoading(false)
       }
     }
 
     fetchProducts()
-  }, []) // يتم تشغيلها مرة واحدة عند تحميل المكون
+  }, [])
 
-  if (loading) return <p className='text-center mt-10 text-lg'>Loading products...</p> // عرض رسالة التحميل
-  if (error) return <p>{error}</p> // عرض رسالة الخطأ
+  if (loading) return <p className='text-center mt-10 text-lg'>Loading products...</p>
+  if (error) return <p>{error}</p>
 
-  // دالة لإضافة منتج إلى السلة
+  // لإضافة منتج إلى السلة
   const addToCart = (product: any) => {
     setCart((prevCart) => {
-      // التحقق من وجود المنتج في السلة بالفعل
+      // التحقق من وجود المنتج في السلة 
       const productInCart = prevCart.find((item) => item.id === product.id);
 
       if (productInCart) {
-        // إذا كان المنتج موجودًا، قم بزيادة الكمية
+        // زيادة الكمية فيحال وجود المنتج  
         return prevCart.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
-        // إذا لم يكن المنتج موجودًا، أضفه إلى السلة
+        // اضافة المنتج في  حال عدم وجوده
         return [...prevCart, { ...product, quantity: 1 }];
       }
     });
@@ -59,9 +58,10 @@ export default function Shop() {
 
   return (
     <div className="flex">
-      <div className="w-2/3 p-4">
-        <h1 className="text-2xl font-bold mb-5">Shop</h1>
-        <div className='grid grid-cols-3 gap-5'>
+      <div className={` ${cartState ? "w-full" : "w-1/3 xl:w-2/3"} p-4 relative`}>
+        <h1 className={`text-2xl text-center font-bold mb-5 ${cartState ? "" : "hidden xl:block"} `}>Shop</h1>
+        <div className='cursor-pointer absolute top-5 right-3 xl:hidden' onClick={() => { setCartState(!cartState) }}><FaBars size={25} /></div>
+        <div className={`grid grid-cols-2  xl:grid-cols-3 gap-5 ${cartState ? "" : "hidden xl:grid"}`}>
           {products.map((product: any) => (
             <div
               key={product.id}
@@ -74,8 +74,8 @@ export default function Shop() {
           ))}
         </div>
       </div>
-      <Cart cart={cart} updateCart={setCart} />
-      <Logout link='shop'/>
+      <Cart cart={cart} updateCart={setCart} cartState={cartState} />
+      <Logout link='shop' />
     </div>
   )
 }

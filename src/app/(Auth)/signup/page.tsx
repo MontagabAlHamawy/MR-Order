@@ -43,28 +43,28 @@ export default function Signup() {
 
   return (
     <div className="h-[90vh] flex items-center justify-center">
-      <div className="bg-[#1a1938] p-10 rounded-lg shadow-xl w-96">
+      <div className="bg-section p-10 rounded-lg shadow-xl w-96">
         <h1 className="text-white text-2xl mb-5">Sign Up</h1>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 bg-[#252446] rounded outline-none text-white placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-body rounded outline-none text-white placeholder-gray-500"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 bg-[#252446] rounded outline-none text-white placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-body rounded outline-none text-white placeholder-gray-500"
         />
         <input
           type="password"
           placeholder="Conform password"
           value={cpassword}
           onChange={(e) => setCPassword(e.target.value)}
-          className="w-full p-3 mb-4 bg-[#252446] rounded outline-none text-white placeholder-gray-500"
+          className="w-full p-3 mb-4 bg-body rounded outline-none text-white placeholder-gray-500"
         />
         <button
           onClick={handleSignUP}

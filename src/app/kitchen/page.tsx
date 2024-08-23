@@ -6,22 +6,22 @@ import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore'
 import { Logout } from '@/components/logout'
 
 export default function Kitchen() {
-    const [orders, setOrders] = useState<any[]>([]) // حالة لتخزين الطلبات
-    const [loading, setLoading] = useState(true) // حالة التحميل
-    const [error, setError] = useState<any>(null) // حالة الخطأ
+    const [orders, setOrders] = useState<any[]>([]) //  لتخزين الطلبات
+    const [loading, setLoading] = useState(true) //  التحميل
+    const [error, setError] = useState<any>(null) //  الخطأ
 
     useEffect(() => {
-        const ordersCollection = collection(db, 'orders') // الوصول إلى مجموعة الطلبات
+        const ordersCollection = collection(db, 'orders') // مجموعة الطلبات
 
-        // استخدام onSnapshot للحصول على التحديثات الفورية
+        //  التحديثات الفوري
         const unsubscribe = onSnapshot(ordersCollection,
             (snapshot) => {
                 const ordersList = snapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
-                })) // تحويل البيانات إلى مصفوفة من الكائنات
-                setOrders(ordersList) // تحديث حالة الطلبات
-                setLoading(false) // إنهاء حالة التحميل
+                }))
+                setOrders(ordersList)
+                setLoading(false)
             },
             (err) => {
                 console.error('Error fetching orders:', err)
@@ -30,9 +30,8 @@ export default function Kitchen() {
             }
         )
 
-        // تنظيف الاشتراك في onSnapshot عند إلغاء التركيب
         return () => unsubscribe()
-    }, []) // يتم تشغيلها مرة واحدة عند تحميل المكون
+    }, [])
 
     const updateOrderStatus = async (orderId: string, newStatus: string) => {
         try {
@@ -46,12 +45,12 @@ export default function Kitchen() {
         }
     };
 
-    if (loading) return <p className="text-center mt-10 text-lg">Loading orders...</p> // عرض رسالة التحميل
-    if (error) return <p className="text-center mt-10 text-lg text-red-500">{error}</p> // عرض رسالة الخطأ
+    if (loading) return <p className="text-center mt-10 text-lg">Loading orders...</p>
+    if (error) return <p className="text-center mt-10 text-lg text-red-500">{error}</p>
 
     return (
         <div className="p-8  min-h-screen">
-            <h1 className="text-4xl font-bold mb-8 text-center">Kitchen Display System (KDS)</h1>
+            <h1 className="text-xl xl:text-2xl font-bold mb-8 text-center">Kitchen Display System (KDS)</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {orders.map((order: any) => (
                     <div key={order.id} className="p-4 bg-[#1a1938] 0 rounded-md shadow-md ">
@@ -95,7 +94,7 @@ export default function Kitchen() {
                     </div>
                 ))}
             </div>
-            <Logout link='kitchen'/>
+            <Logout link='kitchen' />
         </div>
     )
 }
