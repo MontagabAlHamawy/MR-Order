@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthState, useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/firestore'
 import { useRouter } from 'next/navigation';
@@ -7,17 +7,22 @@ import { Logout } from '@/components/logout';
 import toast from 'react-hot-toast';
 
 export default function Signup() {
-  const user = useAuthState(auth)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cpassword, setCPassword] = useState('');
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
   const router = useRouter()
-  if (user) {
-    router.push(`/shop`);
-  } else {
-    router.push('/signup');
-  }
+  const [user, loading] = useAuthState(auth); // استرجاع حالة المستخدم والحالة التحميل
+
+  useEffect(() => {
+    if (!loading) { // تأكد من انتهاء تحميل البيانات
+      if (user) {
+        router.push(`/shop`); // التوجيه إذا كان المستخدم مسجلاً
+      } else {
+        router.push('/signup'); // التوجيه إذا لم يكن المستخدم مسجلاً
+      }
+    }
+  }, [user, loading, router]);
 
   const handleSignUP = async () => {
     try {

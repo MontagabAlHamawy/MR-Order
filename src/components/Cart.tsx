@@ -55,7 +55,7 @@ export default function Cart({ cart, updateCart, cartState }: any) {
         }
     };
     return (
-        <div className={`w-2/3 xl:w-1/3 p-4 bg-section text-white sticky right-0 top-0 h-[90vh] ${cartState ? 'hidden' : 'w-full '}`}>
+        <div className={`w-2/3 xl:w-1/3 p-4 bg-section text-white sticky right-0 top-0 h-[90vh] ${cartState ? 'hidden xl:block' : 'w-full'}`}>
             <h1 className="text-2xl font-bold mb-5">Cart</h1>
             <div className='space-y-4'>
                 {cart.length === 0 ? (
